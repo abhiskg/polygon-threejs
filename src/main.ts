@@ -13,6 +13,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 //Scene
 const scene = new Scene();
 
+const canvas = document.querySelector("#webgl") as HTMLElement;
 // Create our sphere
 const geometry = new SphereGeometry(3, 64, 30);
 const material = new MeshStandardMaterial({
@@ -31,7 +32,7 @@ scene.add(light);
 
 const camera = new PerspectiveCamera(
   45,
-  window.innerWidth / window.innerHeight,
+  canvas.clientWidth / canvas.clientHeight,
   0.1,
   100
 );
@@ -42,9 +43,9 @@ camera.position.z = 20;
 scene.add(camera);
 
 // renderer
-const canvas = document.querySelector(".webgl") as HTMLElement;
-const renderer = new WebGLRenderer({ canvas });
-renderer.setSize(window.innerWidth, window.innerHeight);
+const renderer = new WebGLRenderer();
+renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+canvas.append(renderer.domElement);
 // finally, set the pixel ratio so that our scene will look good on HiDPI displays otherwise will be blurry on mobile devices
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.render(scene, camera);
